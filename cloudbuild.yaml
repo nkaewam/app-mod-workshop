@@ -85,7 +85,7 @@ options:
   logging: CLOUD_LOGGING_ONLY
 substitutions:
   _DEPLOY_REGION: asia-southeast1
-  _AR_HOSTNAME: asia-southeast1-docker.pkg.dev
+  _AR_HOSTNAME: asia-southeast3-docker.pkg.dev
   _PLATFORM: managed
   _SERVICE_NAME: php-amarcord-southeast1
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
