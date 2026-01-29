@@ -6,23 +6,6 @@ include 'config.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
-
-// Se l'utente è amministratore, può vedere tutte le immagini
-$is_admin = ($_SESSION['role'] == 'admin');
-
-if ($is_admin) {
-    $stmt = $pdo->query("SELECT * FROM images");
-} else {
-    $stmt = $pdo->query("SELECT * FROM images WHERE inappropriate = 0");
-}
-
-$images = $stmt->fetchAll();
-?>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Catalogo Immagini</title>
 </head>
