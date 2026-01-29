@@ -23,6 +23,10 @@ $images = $stmt->fetchAll();
 <?php foreach ($images as $image): ?>
     <div>
         <img src="<?php echo $image['filename']; ?>" alt="Immagine" width="200" />
+        <?php if (!empty($image['description'])): ?>
+            <p class="font-bold">Gemini Caption:</p>
+            <p class="italic"><?php echo $image['description']; ?></p>
+        <?php endif; ?>
         <?php if ($is_admin): ?>
             <form method="post" action="inappropriate.php">
                 <input type="hidden" name="image_id" value="<?php echo $image['id']; ?>" />
