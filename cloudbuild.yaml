@@ -84,13 +84,13 @@ options:
   substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
 substitutions:
-  _DEPLOY_REGION: asia-southeast-1
-  _AR_HOSTNAME: asia-southeast-1-docker.pkg.dev
+  _DEPLOY_REGION: asia-southeast3
+  _AR_HOSTNAME: asia-southeast3-docker.pkg.dev
   _PLATFORM: managed
   _SERVICE_NAME: php-amarcord
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
   #_GITHUB_USER: Friends-of-Ricc # change your your own, eg 'gregorio'
-  _GITHUB_USER: palladius # change your your own, eg 'gregorio'
+  _GITHUB_USER: nkaewam # change your your own, eg 'gregorio'
   _DEVFEST_CITY: pescara
 tags:
   - gcp-cloud-build-deploy-cloud-run
