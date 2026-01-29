@@ -92,12 +92,6 @@ def generate_caption(cloud_event):
     bucket = data["bucket"]
     name = data["name"]
 
-    # The original application stores images in an 'uploads' directory.
-    # We only want to process images from this directory.
-    if not name.startswith("uploads/"):
-        print(f"Ignoring file {name} as it is not in the 'uploads/' directory.")
-        return
-
     gcs_uri = f"gs://{bucket}/{name}"
     print(f"Processing file: {gcs_uri}")
 
@@ -116,8 +110,8 @@ def generate_caption(cloud_event):
             print("Error: Database environment variables are not set.")
             return
 
-        # The database stores the filename without the 'uploads/' prefix
-        image_filename = os.path.basename(name)
-        update_db_with_description(image_filename, caption, db_user, db_pass, db_host, db_name)
+        filename = 'uploads/' + name
+
+        update_db_with_description(filename, caption, db_user, db_pass, db_host, db_name)
     else:
         print(f"Could not generate a caption for {gcs_uri}.")
