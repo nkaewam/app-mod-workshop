@@ -1,9 +1,6 @@
-#!/usr/bin/env python
-
-"""Complete this"""
-
 from google.cloud import storage
 from google.cloud import aiplatform
+import functions_framework
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 import os
@@ -81,34 +78,46 @@ def update_db_with_description(image_filename, caption, db_user, db_pass, db_hos
             print("Closing database connection.")
             conn.close()
 
-def generate_caption(event, context):
+@functions_framework.cloud_event
+def generate_caption(cloud_event):
     """
-    Cloud Function triggered by a GCS event.
+    Cloud Function triggered by a GCS event to generate a caption for a new image
+    and update the database.
+
     Args:
-        event (dict): The dictionary with data specific to this type of event.
-        context (google.cloud.functions.Context): Event metadata.
+        cloud_event (cloudevent.CloudEvent): The event payload.
+            The `data` attribute will contain the GCS event data.
     """
-    print(f"Cloud Function triggered by event: {context.event_id}")
-    bucket = event['bucket']
-    filename = event['name']
-    gcs_uri = f"gs://{bucket}/{filename}"
+    data = cloud_event.data
+    bucket = data["bucket"]
+    name = data["name"]
 
-    print(f"Processing file: {filename}.")
+    # The original application stores images in an 'uploads' directory.
+    # We only want to process images from this directory.
+    if not name.startswith("uploads/"):
+        print(f"Ignoring file {name} as it is not in the 'uploads/' directory.")
+        return
 
+    gcs_uri = f"gs://{bucket}/{name}"
+    print(f"Processing file: {gcs_uri}")
+
+    # Generate a caption for the image using Gemini
     caption = gemini_describe_image_from_gcs(gcs_uri)
 
     if caption:
         print(f"Generated caption: {caption}")
-        print("Retrieving database credentials from environment variables.")
-        db_user = os.environ.get('DB_USER')
-        db_pass = os.environ.get('DB_PASS')
-        db_host = os.environ.get('DB_HOST') # e.g., /cloudsql/project:region:instance or an IP
-        db_name = os.environ.get('DB_NAME')
+        # Retrieve database configuration from environment variables
+        db_user = os.environ.get("DB_USER")
+        db_pass = os.environ.get("DB_PASS")
+        db_host = os.environ.get("DB_HOST")
+        db_name = os.environ.get("DB_NAME")
 
         if not all([db_user, db_pass, db_host, db_name]):
-            print("Error: Missing one or more database environment variables (DB_USER, DB_PASS, DB_HOST, DB_NAME).")
+            print("Error: Database environment variables are not set.")
             return
 
-        update_db_with_description(filename, caption, db_user, db_pass, db_host, db_name)
+        # The database stores the filename without the 'uploads/' prefix
+        image_filename = os.path.basename(name)
+        update_db_with_description(image_filename, caption, db_user, db_pass, db_host, db_name)
     else:
-        print(f"Could not generate caption for {filename}.")
+        print(f"Could not generate a caption for {gcs_uri}.")
