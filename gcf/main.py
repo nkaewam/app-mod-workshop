@@ -7,8 +7,7 @@ import os
 import pymysql
 import pymysql.cursors
 
-# It's best practice to get the Project ID from the environment
-PROJECT_ID = "gcp-app-mod-workshop-nkaewam"
+PROJECT_ID = "REPLACE_WITH_YOUR_PROJECT_ID"
 GEMINI_MODEL = "gemini-2.5-flash"
 DEFAULT_PROMPT = "Generate a caption for this image: "
 
