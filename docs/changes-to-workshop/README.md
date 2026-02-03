@@ -1,4 +1,4 @@
-# Workshop Update Overview (BKK 2026)
+# Workshop Update Overview (TH Region Launch Hands-On Labs)
 
 This directory contains updated instructions and supplemental information for the ["App Mod Workshop"](https://codelabs.developers.google.com/codelabs/app-mod-workshop) workshop. These changes reflect recent updates to the Google Cloud Console UI and the integration of new AI capabilities.
 
