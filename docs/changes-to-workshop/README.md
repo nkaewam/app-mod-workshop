@@ -8,7 +8,7 @@ This directory contains updated instructions and supplemental information for th
 - [Module 3: Deploy the App to Cloud Run](./module-03.md) - Critical IAM permission fixes for the default compute service account.
 - [Module 7: Empower your App with Google Gemini](./module-07.md) - Migrating to Gemini 2.5 Flash and using the revamped Cloud Run Functions UI.
 
-## Recommended Regional Settings
+## Regional Settings
 
 Please use the following regions for the corresponding services:
 
