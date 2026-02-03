@@ -19,5 +19,4 @@ Please use the following regions for the corresponding services:
 | **Artifact Registry** | `asia-southeast3` (Bangkok)   |
 | **Eventarc**          | `asia-southeast1` (Singapore) |
 | **Cloud Storage**     | `asia-southeast1` (Singapore) |
-| **Eventarc Triggers** | `asia-southeast1` (Singapore) |
 | **Cloud Build**       | `Global`                      |
