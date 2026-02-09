@@ -19,8 +19,12 @@ jq --arg sa "serviceAccount:$DEFAULT_SA" '.bindings += [
     {"role": "roles/secretmanager.secretAccessor", "members": [$sa]},
     {"role": "roles/run.admin", "members": [$sa]},
     {"role": "roles/iam.serviceAccountUser", "members": [$sa]},
-    {"role": "roles/aiplatform.user", "members": [$sa]}
+    {"role": "roles/aiplatform.user", "members": [$sa]},
+    {"role": "roles/cloudbuild.workerPoolUser", "members": [$sa]}
 ]' policy.json > updated_policy.json
 
 # 4. Upload the modified policy back to GCP (The single query)
 gcloud projects set-iam-policy $PROJECT_ID updated_policy.json
+
+# Cleanup
+rm policy.json updated_policy.json
