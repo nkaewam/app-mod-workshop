@@ -1,5 +1,3 @@
-# strangely inspired by Riccardo's https://github.com/Friends-of-Ricc/app-mod-workshop/blob/main/cloudbuild.yaml
-# jokes apart, if this doesn't work check the latest version there!
 steps:
   - name: gcr.io/cloud-builders/docker
     args:
@@ -31,14 +29,10 @@ steps:
       - '--port=80'
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-#      - >-
-#        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-      # Note to self: non va col services..
       - '--allow-unauthenticated'
     env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
-    # copying RAILS_ENV approach.
     - PHP_ENV=development
     - PORT=80
     - APP_NAME="A PHP Amarcord app deployed via Cloud Build to dev - break me as much as you want!"
@@ -52,22 +46,15 @@ steps:
     args:
       - run
       - deploy
-      # alternative: requires service to already exist (will work all the time, except the first :P)
-      # - services
-      # - update
       - ${_SERVICE_NAME}-prod
       - '--platform=managed'
       - '--port=80'
       - >-
         --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-#      - >-
-#        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-      # Note to self: non va col services..
       - '--allow-unauthenticated'
     env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
-    # copying RAILS_ENV approach.
     - PHP_ENV=production
     - PORT=80
     - APP_NAME="A PHP Amarcord app deployed via Cloud Build to PROD - please do not deploy on Fridays!"
@@ -89,7 +76,6 @@ substitutions:
   _PLATFORM: managed
   _SERVICE_NAME: php-amarcord
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
-  #_GITHUB_USER: Friends-of-Ricc # change your your own, eg 'gregorio'
   _GITHUB_USER: nkaewam # change your your own, eg 'gregorio'
   _DEVFEST_CITY: pescara
 tags:
